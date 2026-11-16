@@ -4,7 +4,7 @@ requires = [ "uv-build>=0.13,<0.14" ]
 
 [project]
 name = "discogs-api-reference"
-version = "0.1.0"
+version = "0.2.0.dev0"
 description = "Build a local Markdown copy of the Discogs API reference"
 readme = "README.md"
 keywords = [ "cli", "discogs", "discogs-api", "documentation", "markdown" ]
