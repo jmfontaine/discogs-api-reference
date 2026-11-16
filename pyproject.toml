@@ -20,7 +20,11 @@ classifiers = [
   "Programming Language :: Python :: 3.15",
   "Typing :: Typed",
 ]
-dependencies = []
+dependencies = [
+  "beautifulsoup4>=4.13",
+  "curl-cffi>=0.13",
+  "markdownify>=1.2",
+]
 urls.Homepage = "https://github.com/jmfontaine/discogs-api-reference"
 urls.Issues = "https://github.com/jmfontaine/discogs-api-reference/issues"
 urls.Repository = "https://github.com/jmfontaine/discogs-api-reference"
