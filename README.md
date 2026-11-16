@@ -40,13 +40,16 @@ discogs-api-reference [OPTIONS]
 
 Errors exit with status 2 and write nothing.
 
-In a project, git-ignore the copy and add a recipe, for example in a `justfile`:
+In a project, git-ignore the copy and add a recipe, for example in a `justfile`. The
+`@latest` suffix makes uvx check for a new release on each run; without it, uvx keeps
+the version it cached on its first run, and a fix for a change to the Discogs page
+would not reach the project:
 
 ```just
 # Compare reference/discogs_api/ with the Discogs API reference (--diff, --check, --write)
 [positional-arguments]
 update-api-docs *args:
-    uvx discogs-api-reference "$@"
+    uvx discogs-api-reference@latest "$@"
 ```
 
 ## Output
