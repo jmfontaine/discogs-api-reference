@@ -1,0 +1,13 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: db83038
+_src_path: gh:jmfontaine/copier-python
+author_email: jm@jmfontaine.net
+author_name: Jean-Marc Fontaine
+cli: true
+copyright_year: '2026'
+description: Build a local Markdown copy of the Discogs API reference
+github_owner: jmfontaine
+package_name: discogs_api_reference
+project_kind: package
+project_name: discogs-api-reference
+python_min: '3.11'

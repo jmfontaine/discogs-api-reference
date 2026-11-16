@@ -1,0 +1,99 @@
+[build-system]
+build-backend = "uv_build"
+requires = [ "uv-build>=0.13,<0.14" ]
+
+[project]
+name = "discogs-api-reference"
+version = "0.1.0.dev0"
+description = "Build a local Markdown copy of the Discogs API reference"
+readme = "README.md"
+license = "Apache-2.0"
+license-files = [ "LICENSE.txt" ]
+authors = [ { name = "Jean-Marc Fontaine", email = "jm@jmfontaine.net" } ]
+requires-python = ">=3.11"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
+  "Typing :: Typed",
+]
+dependencies = []
+urls.Homepage = "https://github.com/jmfontaine/discogs-api-reference"
+urls.Issues = "https://github.com/jmfontaine/discogs-api-reference/issues"
+urls.Repository = "https://github.com/jmfontaine/discogs-api-reference"
+scripts.discogs-api-reference = "discogs_api_reference.cli:main"
+
+[dependency-groups]
+dev = [
+  "deptry>=0.25",
+  "git-cliff>=2.14",
+  "pre-commit>=4.6",
+  "pyproject-fmt>=2.30",
+  "pyright>=1.1.414",
+  "ruff>=0.17",
+  "rumdl>=0.3",
+  "ty>=0.0.86",
+  { include-group = "test" },
+]
+# CI installs this group on its own next to the built wheel, to run the suite
+# against the installed package; keep it to what the tests import.
+test = [
+  "pytest>=9.1",
+  "pytest-cov>=7.1",
+]
+
+[tool.ruff]
+line-length = 88
+lint.select = [
+  "A",     # flake8-builtins
+  "ASYNC", # flake8-async
+  "B",     # flake8-bugbear
+  "BLE",   # flake8-blind-except
+  "C4",    # flake8-comprehensions
+  "DTZ",   # flake8-datetimez
+  "E",     # pycodestyle errors
+  "EXE",   # flake8-executable
+  "F",     # pyflakes
+  "FLY",   # flynt
+  "FURB",  # refurb
+  "G",     # flake8-logging-format
+  "I",     # isort
+  "ISC",   # flake8-implicit-str-concat
+  "LOG",   # flake8-logging
+  "N",     # pep8-naming
+  "PERF",  # perflint
+  "PGH",   # pygrep-hooks
+  "PIE",   # flake8-pie
+  "PLE",   # pylint errors
+  "PLW",   # pylint warnings
+  "PT",    # flake8-pytest-style
+  "PTH",   # flake8-use-pathlib
+  "RET",   # flake8-return
+  "RSE",   # flake8-raise
+  "RUF",   # ruff-specific rules
+  "SIM",   # flake8-simplify
+  "T10",   # flake8-debugger
+  "UP",    # pyupgrade
+  "W",     # pycodestyle warnings
+]
+
+[tool.pyproject-fmt]
+column_width = 88
+max_supported_python = "3.15"
+
+[tool.pytest]
+# Python ignores ResourceWarning by default, so a leaked file or connection
+# would otherwise pass unnoticed.
+filterwarnings = [
+  "error::ResourceWarning",
+  "error::pytest.PytestUnraisableExceptionWarning",
+]
+testpaths = [ "tests" ]
+
+[tool.coverage]
+run.source = [ "discogs_api_reference" ]
+report.skip_empty = true
+report.show_missing = true
