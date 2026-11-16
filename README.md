@@ -31,9 +31,10 @@ In a project, git-ignore the copy and add a recipe, for example in a `justfile`:
 
 ```just
 # Compare reference/discogs_api/ with the Discogs API reference (--diff, --check, --write)
+[positional-arguments]
 update-api-docs *args:
     uvx --from git+https://github.com/jmfontaine/discogs-api-reference \
-        discogs-api-reference {{ args }}
+        discogs-api-reference "$@"
 ```
 
 ## Output
