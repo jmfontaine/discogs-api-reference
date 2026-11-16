@@ -94,23 +94,48 @@ def test_invalid_html_is_an_error(
 
 
 class FakeResponse:
-    status_code = 403
-    text = "<!DOCTYPE html><title>Just a moment...</title>"
+    def __init__(self, status_code: int, text: str = "") -> None:
+        self.status_code = status_code
+        self.text = text
+
+
+CHALLENGE = FakeResponse(403, "<!DOCTYPE html><title>Just a moment...</title>")
+
+
+def fake_requests(
+    monkeypatch: pytest.MonkeyPatch, response: FakeResponse
+) -> list[dict[str, Any]]:
+    calls: list[dict[str, Any]] = []
+
+    def fake_get(url: str, **kwargs: Any) -> FakeResponse:
+        calls.append({"url": url, **kwargs})
+        return response
+
+    monkeypatch.setattr(_fetch.requests, "get", fake_get)
+    return calls
 
 
 def test_fetch_names_itself_and_suggests_a_saved_page(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    user_agents: list[str] = []
-
-    def fake_get(url: str, **kwargs: Any) -> FakeResponse:
-        user_agents.append(kwargs["headers"]["User-Agent"])
-        return FakeResponse()
-
-    monkeypatch.setattr(_fetch.requests, "get", fake_get)
+    calls = fake_requests(monkeypatch, CHALLENGE)
 
     with pytest.raises(FetchError, match="--from-html"):
         fetch_html()
-    # The tool may borrow a browser's handshake, but never its name.
-    assert user_agents
-    assert all(agent.startswith("discogs-api-reference/") for agent in user_agents)
+    # One request per browser handshake, all for the one page, and the tool
+    # may borrow a browser's handshake, but never its name.
+    assert len(calls) == len(_fetch.BROWSER_HANDSHAKES)
+    assert {call["url"] for call in calls} == {_fetch.DOCS_URL}
+    assert all(
+        call["headers"]["User-Agent"].startswith("discogs-api-reference/")
+        for call in calls
+    )
+
+
+def test_fetch_never_follows_a_redirect(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls = fake_requests(monkeypatch, FakeResponse(301))
+
+    with pytest.raises(FetchError, match="HTTP 301"):
+        fetch_html()
+    assert len(calls) == 1
+    assert calls[0]["allow_redirects"] is False
