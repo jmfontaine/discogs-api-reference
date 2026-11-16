@@ -7,17 +7,22 @@ name = "discogs-api-reference"
 version = "0.1.0.dev0"
 description = "Build a local Markdown copy of the Discogs API reference"
 readme = "README.md"
+keywords = [ "cli", "discogs", "discogs-api", "documentation", "markdown" ]
 license = "Apache-2.0"
 license-files = [ "LICENSE.txt" ]
 authors = [ { name = "Jean-Marc Fontaine", email = "jm@jmfontaine.net" } ]
 requires-python = ">=3.11"
 classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
   "Programming Language :: Python :: 3.15",
+  "Topic :: Software Development :: Documentation",
   "Typing :: Typed",
 ]
 dependencies = [

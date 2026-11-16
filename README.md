@@ -8,12 +8,25 @@ Discogs publishes its API reference only as a web page, and Cloudflare blocks sc
 and agents on every discogs.com page. This tool downloads that one page, converts it to
 Markdown, and reports what changed since your last copy.
 
-## Usage
+## Installation
 
-Run it from GitHub with [uv](https://docs.astral.sh/uv/):
+The tool needs Python 3.11 or later. Install it from PyPI with
+[uv](https://docs.astral.sh/uv/):
 
 ```bash
-uvx --from git+https://github.com/jmfontaine/discogs-api-reference discogs-api-reference
+uv tool install discogs-api-reference
+```
+
+Or run it without installing it:
+
+```bash
+uvx discogs-api-reference
+```
+
+## Usage
+
+```bash
+discogs-api-reference [OPTIONS]
 ```
 
 | Option | Effect |
@@ -33,8 +46,7 @@ In a project, git-ignore the copy and add a recipe, for example in a `justfile`:
 # Compare reference/discogs_api/ with the Discogs API reference (--diff, --check, --write)
 [positional-arguments]
 update-api-docs *args:
-    uvx --from git+https://github.com/jmfontaine/discogs-api-reference \
-        discogs-api-reference "$@"
+    uvx discogs-api-reference "$@"
 ```
 
 ## Output

@@ -80,9 +80,8 @@ conventions are above; the process for contributors is in
 
 ### Shape
 
-A Python CLI. The `discogs-api-reference` console script calls
-`discogs_api_reference.cli:main`. It is not on PyPI yet: projects run it from GitHub
-with `uvx --from git+https://github.com/jmfontaine/discogs-api-reference`.
+A Python CLI published to PyPI. The `discogs-api-reference` console script calls
+`discogs_api_reference.cli:main`; projects run it with `uvx discogs-api-reference`.
 
 - `_fetch.py` downloads the page
 - `_render.py` validates the page and converts each section to Markdown
