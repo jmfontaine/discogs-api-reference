@@ -6,6 +6,21 @@ Guidance for coding agents working in this repository.
 
 discogs-api-reference: Build a local Markdown copy of the Discogs API reference
 
+The tool downloads `https://www.discogs.com/developers` and converts it to one
+Markdown file per section ([README.md](README.md)). These limits keep it a reader of
+one documentation page, never a scraper of Discogs, and changes must keep them:
+
+- It fetches only `DOCS_URL` (`_fetch.py`): no other address, no URL option, no
+  crawling. It retries with another browser handshake only after a rejection.
+- Its `User-Agent` names the tool and links to this repository. It never claims to
+  be a browser, even though it opens the connection the way one does.
+- The repository never contains Discogs content. Tests build their HTML from
+  `tests/reference_html.py`, which mimics the page's layout with invented text; never
+  commit a saved copy of the page or the generated Markdown.
+- The Markdown layout described under "Output" in README.md is a contract: projects
+  parse the route lines and the response markers. Change it only on purpose, and
+  update the README and the tests with it.
+
 ## Commands
 
 Task runner is [just](https://github.com/casey/just); every recipe runs its tool
@@ -65,8 +80,13 @@ conventions are above; the process for contributors is in
 
 ### Shape
 
-A Python CLI published to PyPI. The `discogs-api-reference` console script calls
-`discogs_api_reference.cli:main`.
+A Python CLI. The `discogs-api-reference` console script calls
+`discogs_api_reference.cli:main`. It is not on PyPI yet: projects run it from GitHub
+with `uvx --from git+https://github.com/jmfontaine/discogs-api-reference`.
+
+- `_fetch.py` downloads the page
+- `_render.py` validates the page and converts each section to Markdown
+- `cli.py` compares the result with the local copy, then reports or writes
 
 ### Language, runtime, and tooling
 
